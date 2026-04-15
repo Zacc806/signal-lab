@@ -1,0 +1,9 @@
+---
+description: Metrics, logs, and sentry conventions
+alwaysApply: true
+---
+
+- Metrics names use `snake_case` and explicit units (`_seconds`, `_total`).
+- Every new backend endpoint must emit at least one structured log with stable keys.
+- Error paths must increment error counters and send 5xx failures to Sentry.
+- Keep labels low-cardinality (`type`, `status`, `method`, `path`, `status_code`).

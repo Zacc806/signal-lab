@@ -1,0 +1,9 @@
+---
+description: Frontend server-state and forms patterns
+alwaysApply: true
+---
+
+- Use TanStack Query for server state (`useQuery` and `useMutation`).
+- Use React Hook Form for user-input forms.
+- Use shared UI components in `src/components/ui` and Tailwind utility classes.
+- On successful mutations, invalidate related query keys.

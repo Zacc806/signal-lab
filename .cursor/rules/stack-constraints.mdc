@@ -1,0 +1,9 @@
+---
+description: Signal Lab stack constraints
+alwaysApply: true
+---
+
+- Use Next.js App Router, Tailwind, shadcn-style UI components, TanStack Query, and React Hook Form in frontend changes.
+- Use NestJS + Prisma + PostgreSQL in backend changes.
+- Do not add Redux, SWR, Sequelize, TypeORM, or non-required alternatives.
+- Keep observability components aligned with Prometheus, Loki, Grafana, and Sentry.

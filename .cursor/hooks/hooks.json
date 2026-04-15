@@ -1,0 +1,16 @@
+{
+  "hooks": [
+    {
+      "name": "after-schema-change",
+      "event": "file_saved",
+      "match": "prisma/schema.prisma",
+      "run": ".cursor/hooks/scripts/after-schema-change.sh"
+    },
+    {
+      "name": "after-endpoint-change",
+      "event": "file_saved",
+      "match": "apps/backend/src/**/*.ts",
+      "run": ".cursor/hooks/scripts/check-endpoint-observability.sh"
+    }
+  ]
+}

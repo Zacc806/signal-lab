@@ -1,0 +1,95 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: signal-lab-postgres
+    environment:
+      POSTGRES_USER: signal
+      POSTGRES_PASSWORD: signal
+      POSTGRES_DB: signal_lab
+    ports:
+      - '5433:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./apps/backend
+    container_name: signal-lab-backend
+    environment:
+      PORT: 3001
+      DATABASE_URL: postgresql://signal:signal@postgres:5432/signal_lab?schema=public
+      SENTRY_DSN: ${SENTRY_DSN:-https://examplePublicKey@o0.ingest.sentry.io/0}
+      NODE_ENV: development
+    depends_on:
+      - postgres
+    ports:
+      - '3001:3001'
+    volumes:
+      - ./apps/backend:/app
+      - ./prisma:/app/prisma
+      - /app/node_modules
+
+  frontend:
+    build:
+      context: ./apps/frontend
+    container_name: signal-lab-frontend
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:3001
+      NODE_ENV: development
+    depends_on:
+      - backend
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./apps/frontend:/app
+      - /app/node_modules
+
+  prometheus:
+    image: prom/prometheus:v3.4.2
+    container_name: signal-lab-prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    volumes:
+      - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - '9090:9090'
+    depends_on:
+      - backend
+
+  loki:
+    image: grafana/loki:3.5.5
+    container_name: signal-lab-loki
+    command: -config.file=/etc/loki/config.yaml
+    volumes:
+      - ./infra/loki/loki-config.yml:/etc/loki/config.yaml:ro
+    ports:
+      - '3100:3100'
+
+  promtail:
+    image: grafana/promtail:3.5.5
+    container_name: signal-lab-promtail
+    command: -config.file=/etc/promtail/config.yml
+    volumes:
+      - ./infra/promtail/promtail.yml:/etc/promtail/config.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - loki
+
+  grafana:
+    image: grafana/grafana:12.1.1
+    container_name: signal-lab-grafana
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    ports:
+      - '3101:3000'
+    depends_on:
+      - prometheus
+      - loki
+    volumes:
+      - ./infra/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./infra/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./infra/grafana/dashboards:/var/lib/grafana/dashboards:ro
+
+volumes:
+  postgres_data:

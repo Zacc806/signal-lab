@@ -1,0 +1,9 @@
+---
+description: Prisma usage patterns
+alwaysApply: true
+---
+
+- Use Prisma client through `PrismaService`; avoid direct raw SQL.
+- All schema updates must include a migration in `prisma/migrations`.
+- Keep model fields explicit and nullable only when semantically needed.
+- For API history endpoints, apply explicit ordering and a hard `take` limit.
