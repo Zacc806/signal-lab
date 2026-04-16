@@ -65,13 +65,12 @@ let ScenarioService = ScenarioService_1 = class ScenarioService {
     async run(dto) {
         const startedAt = Date.now();
         const scenarioType = dto.type;
-        const durationMs = Date.now() - startedAt;
         if (scenarioType === 'validation_error') {
             await this.prisma.scenarioRun.create({
                 data: {
                     type: scenarioType,
                     status: 'error',
-                    duration: durationMs,
+                    duration: Date.now() - startedAt,
                     error: 'Validation failed for this scenario',
                     metadata: dto.name ? { name: dto.name } : undefined,
                 },
@@ -93,7 +92,7 @@ let ScenarioService = ScenarioService_1 = class ScenarioService {
                 data: {
                     type: scenarioType,
                     status: 'error',
-                    duration: durationMs,
+                    duration: Date.now() - startedAt,
                     error: 'Intentional system error',
                     metadata: dto.name ? { name: dto.name } : undefined,
                 },

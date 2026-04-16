@@ -6,9 +6,9 @@
 
 ## Репозиторий
 
-- **URL**: `TODO: add repo URL`
+- **URL**: `https://github.com/Zacc806/signal-lab`
 - **Ветка**: `main`
-- **Время работы** (приблизительно): `6-8` часов
+- **Время работы** (приблизительно): `2` часа
 
 ---
 
@@ -134,9 +134,9 @@ docker compose down
 
 ## Скриншоты / видео
 
-- [ ] UI приложения
-- [ ] Grafana dashboard с данными
-- [ ] Loki logs
+- [Screenshot 2026-04-15 at 19.42.30.png] UI приложения
+- [Screenshot 2026-04-15 at 19.53.51] Grafana dashboard с данными
+- [Screenshot 2026-04-15 at 19.54.36.png] Loki logs
 - [ ] Sentry error
 
 (Приложи файлы или ссылки ниже)

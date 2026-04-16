@@ -1,10 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {
-  Counter,
-  Histogram,
-  Registry,
-  collectDefaultMetrics,
-} from 'prom-client';
+import { Counter, Histogram, Registry } from 'prom-client';
 
 @Injectable()
 export class MetricsService {
@@ -15,7 +10,6 @@ export class MetricsService {
 
   constructor() {
     this.registry = new Registry();
-    collectDefaultMetrics({ register: this.registry });
 
     this.scenarioRunsTotal = new Counter({
       name: 'scenario_runs_total',

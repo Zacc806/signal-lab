@@ -19,7 +19,7 @@ let HttpMetricsMiddleware = class HttpMetricsMiddleware {
     }
     use(req, res, next) {
         res.on('finish', () => {
-            const path = req.path.startsWith('/api') ? req.path : `/api${req.path}`;
+            const path = req.path || '/';
             this.metricsService.httpRequestsTotal.inc({
                 method: req.method,
                 path,

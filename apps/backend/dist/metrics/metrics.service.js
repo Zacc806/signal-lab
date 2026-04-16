@@ -19,7 +19,6 @@ let MetricsService = class MetricsService {
     httpRequestsTotal;
     constructor() {
         this.registry = new prom_client_1.Registry();
-        (0, prom_client_1.collectDefaultMetrics)({ register: this.registry });
         this.scenarioRunsTotal = new prom_client_1.Counter({
             name: 'scenario_runs_total',
             help: 'Total number of scenario runs',

@@ -8,7 +8,7 @@ export class HttpMetricsMiddleware implements NestMiddleware {
 
   use(req: Request, res: Response, next: () => void): void {
     res.on('finish', () => {
-      const path = req.path.startsWith('/api') ? req.path : `/api${req.path}`;
+      const path = req.path || '/';
       this.metricsService.httpRequestsTotal.inc({
         method: req.method,
         path,
